@@ -5,12 +5,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score
-
-# -------------------- Title --------------------
 st.title("🌀 Hurricane Prediction System")
 st.write("Predict whether a storm system is a **Hurricane** based on environmental factors.")
 
-# -------------------- Load Dataset --------------------
 try:
     data = pd.read_csv("storms.csv")
     st.success("Dataset loaded successfully!")
@@ -28,15 +25,12 @@ y = data['target']
 
 X = X.apply(pd.to_numeric, errors='coerce')
 X = X.fillna(X.median())
-# Create target variable: Hurricane = 1, Not Hurricane = 0
 hurricane_labels = ["HU", "HURRICANE", "Hurricane"]
 data['target'] = data['category'].apply(lambda x: 1 if str(x).upper() in hurricane_labels else 0)
-
-# --- Add this line ---
 print(data['target'].value_counts())
 
 
-# -------------------- Train-Test Split --------------------
+
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.3, random_state=42
 )
@@ -45,7 +39,7 @@ scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 
-# -------------------- Train Model --------------------
+
 model = RandomForestClassifier(n_estimators=200, random_state=42)
 model.fit(X_train, y_train)
 
